@@ -88,6 +88,11 @@ public partial class HAMHMod : BasePlugin
             stopwatch5.Stop();
             Log.LogInfo($"[HAMH] Initialized CreatureManager in {stopwatch5.ElapsedMilliseconds}ms.");
 
+            var stopwatch6 = Stopwatch.StartNew();
+            InteractableManager.Instance.Initialize();
+            stopwatch6.Stop();
+            Log.LogInfo($"[HAMH] Initialized InteractableManager in {stopwatch6.ElapsedMilliseconds}ms.");
+
             //var stopwatch3 = Stopwatch.StartNew();
             //UniverseLibConfig uvlconfig = new UniverseLibConfig
             //{
@@ -289,4 +294,3 @@ public partial class HAMHMod : BasePlugin
         }
     }
 }
-
