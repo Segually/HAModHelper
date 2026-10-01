@@ -206,6 +206,10 @@ public sealed class CreatureManager
     [HarmonyPatch(typeof(BreedControl), nameof(BreedControl.SetUpBreeder))]
     internal static class SetUpBreederPatch
     {
+        // BreedControl.CreateButtons lays buttons out in a 3-column grid with 110 unit spacing.
+        private const int ButtonColumns = 3;
+        private const float ButtonSpacing = 110f;
+
         static void Postfix(BreedControl __instance)
         {
             try
@@ -218,6 +222,10 @@ public sealed class CreatureManager
                     customList.Add(name);
 
                 __instance.CreateButtons(customList, false);
+
+                // SetUpBreeder derives the scroll limit from the vanilla button count before this postfix runs,
+                // so the rows added above would be unreachable. Recompute it with the game's own formula.
+                __instance.max_buttons_y = ((__instance.n_buttons - 1) / ButtonColumns) * ButtonSpacing;
             }
             catch (Exception ex)
             {
